@@ -56,12 +56,13 @@ ICE_Gui ICE_Gui_Build(ICE_Box box, ICE_TextureID nb_texture)
 
 void ICE_Gui_UpdateTexture(ICE_State* state_, ICE_ID gui)
 {
+	/*
 	if (state_ == 0)
 		state_ = GAME.current;
 
 	ICE_Texture texture = { 0 };
 	texture.handle = SDL_CreateTexture(CORE.window.render, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, (int)state_->object.gui_mngr.gui[gui].box.w, (int)state_->object.gui_mngr.gui[gui].box.h);
-	SDL_SetRenderTarget(CORE.window.render, texture.handle);
+	//SDL_SetRenderTarget(CORE.window.render, texture.handle);
 	SDL_SetTextureBlendMode(texture.handle, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(CORE.window.render, 0, 0, 0, 0);
 	SDL_RenderClear(CORE.window.render);
@@ -85,6 +86,7 @@ void ICE_Gui_UpdateTexture(ICE_State* state_, ICE_ID gui)
 	if (state_->object.gui_mngr.gui[gui].texture_cache.handle)
 		SDL_DestroyTexture(state_->object.gui_mngr.gui[gui].texture_cache.handle);
 	state_->object.gui_mngr.gui[gui].texture_cache = texture;
+	*/
 }
 
 // Deprecated

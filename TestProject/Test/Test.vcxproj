@@ -71,20 +71,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>..\..\Debug;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\..\ICEngine\src\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Debug;$(LibraryPath);C:\Users\coldr\source\repos\ICE\external\SDL2_gpu\lib\x86</LibraryPath>
+    <IncludePath>..\..\ICEngine\src\;$(IncludePath);..\external\SDL2_gpu\include\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LibraryPath>..\..\Release;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\..\ICEngine\src\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Release;$(LibraryPath);C:\Users\coldr\source\repos\ICE\external\SDL2_gpu\lib\x86</LibraryPath>
+    <IncludePath>..\..\ICEngine\src\;$(IncludePath);..\external\SDL2_gpu\include\</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>C:\Program Files %28x86%29\Visual Leak Detector\lib\Win64;..\..\x64\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>C:\Users\coldr\source\repos\ICE\external\SDL2_gpu\lib\x64;C:\Program Files %28x86%29\Visual Leak Detector\lib\Win64;..\..\x64\Debug;$(LibraryPath)</LibraryPath>
     <IncludePath>C:\Program Files (x86)\Visual Leak Detector;..\..\ICEngine\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>..\..\x64\Release;$(LibraryPath)</LibraryPath>
-    <IncludePath>..\..\ICEngine\src\;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\coldr\source\repos\ICE\external\SDL2_gpu\lib\x64;..\..\x64\Release;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\ICEngine\src\;$(IncludePath);..\external\SDL2_gpu\include\</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -99,7 +99,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_ttf.lib;SDL2_mixer.lib;ICEngine.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_gpu.lib;ICEngine.lib;opengl32.lib</AdditionalDependencies>
       <SubSystem>Windows</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -125,7 +125,7 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_ttf.lib;SDL2_mixer.lib;ICEngine.lib</AdditionalDependencies>
+      <AdditionalDependencies>SDL2main.lib;SDL2.lib;SDL2_ttf.lib;SDL2_mixer.lib;SDL2_gpu.lib;ICEngine.lib;opengl32.lib</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>

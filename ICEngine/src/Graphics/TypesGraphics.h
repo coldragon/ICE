@@ -6,6 +6,7 @@
 #include "../Core/SDL2_Includer.h"
 
 #include ICE_INCLUDE_SDL2_TTF
+#include ICE_INCLUDE_SDL2_GPU
 
 #ifndef ICE_INDEX_CORETYPE_DEFINED
 #define ICE_INDEX_CORETYPE_DEFINED
@@ -51,7 +52,7 @@ struct ICE_Texture
 	ICE_ID id;
 	ICE_Bool	 exist;
 	unsigned int w, h;
-	SDL_Texture* handle;
+	GPU_Image* handle;
 };
 
 typedef struct ICE_Texture ICE_Texture;

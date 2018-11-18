@@ -6,8 +6,11 @@
 #include "../Core/Window_private.h"
 #include <stdio.h>
 
+#include ICE_INCLUDE_SDL2_GPU
+
 extern ICE_Core CORE;
 extern ICE_Config CONFIG;
+
 int ICE_Render_SetColor(const ICE_Color rgba_hex) {
 	const int r = rgba_hex >> 24 & 255;
 	const int g = rgba_hex >> 16 & 255;
@@ -18,11 +21,15 @@ int ICE_Render_SetColor(const ICE_Color rgba_hex) {
 
 int ICE_Render_Clear() 
 {
-	return SDL_RenderClear(CORE.window.render);
+	//return SDL_RenderClear(CORE.window.render);
+	SDL_Color color = { 50, 100, 50, 255 };
+	GPU_ClearColor(CORE.window.render, color);
+	return 0;
 }
 void ICE_Render_Now() 
 {
-	SDL_RenderPresent(CORE.window.render);
+	//SDL_RenderPresent(CORE.window.render);
+	GPU_Flip(CORE.window.render);
 }
 
 void ICE_Render_Init()
@@ -45,6 +52,8 @@ void ICE_Render_Init()
 	else
 		ICE_Log(ICE_LOG_CRITICAL, "Window create : %s", SDL_GetError());
 
+
+	/*
 	if(CONFIG.vsync)
 		CORE.window.render = SDL_CreateRenderer(CORE.window.handle, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	else
@@ -57,6 +66,7 @@ void ICE_Render_Init()
 
 	if (SDL_SetRenderDrawBlendMode(CORE.window.render, SDL_BLENDMODE_BLEND) == -1)
 		ICE_Log(ICE_LOG_ERROR, "SDL_SetRenderDrawBlendMode : %s", SDL_GetError());
+	*/
 
 #if defined(_DEBUG)
 	CORE.lateDrawDebug = NULL;
@@ -65,6 +75,14 @@ void ICE_Render_Init()
 	CORE.window.w = (ICE_Float)CONFIG.window_w; CORE.window.h = (ICE_Float)CONFIG.window_h;
 
 	ICE_Window_Config();
+
+	GPU_SetInitWindow(SDL_GetWindowID(CORE.window.handle));
+	
+	if (CONFIG.vsync)
+		CORE.window.render = GPU_Init(CONFIG.window_w, CONFIG.window_h, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	else
+		CORE.window.render = GPU_Init(CONFIG.window_w, CONFIG.window_h, SDL_RENDERER_ACCELERATED);
+
 
 	ICE_Render_Info();
 	
@@ -80,8 +98,11 @@ void ICE_Render_Quit()
 	SDL_DestroyWindow(CORE.window.handle);
 	ICE_Log(ICE_LOG_SUCCES, "Window destroy");
 
-	SDL_DestroyRenderer(CORE.window.render);
-	ICE_Log(ICE_LOG_SUCCES, "Render destroy");
+	GPU_FreeTarget(CORE.window.render);
+	ICE_Log(ICE_LOG_SUCCES, "Target destroy");
+
+	//SDL_DestroyRenderer(CORE.window.render);
+	//ICE_Log(ICE_LOG_SUCCES, "Render destroy");
 
 
 	ICE_Log(ICE_LOG_FINISH, "Render Quit");
@@ -92,6 +113,7 @@ void ICE_Render_Quit()
 void ICE_Render_Info()
 {
 	ICE_Log(ICE_LOG_INFO, "Render Info");
+	/*
 	SDL_RendererInfo info_renderer;
 	SDL_GetRendererInfo(CORE.window.render, &info_renderer);
 	puts("");
@@ -106,9 +128,13 @@ void ICE_Render_Info()
 		ICE_Log_Printf("  - VSYNC\n");
 	if (info_renderer.flags |= SDL_RENDERER_TARGETTEXTURE)
 		ICE_Log_Printf("  - Target Texture\n");
+	*/
+
+	GPU_RendererID id = CORE.window.render->renderer->id;
+	printf(" Renderer : %s (%d.%d)\n", id.name, id.major_version, id.minor_version);
 
 	int display_index = SDL_GetWindowDisplayIndex(CORE.window.handle);
-	ICE_Log_Printf(" Window on Screen : %d", display_index);
+	ICE_Log_Printf(" Window on Screen : %d\n", display_index);
 	int screen_count = SDL_GetNumVideoDisplays();
 	for(int i = 0; i < screen_count; i++)
 	{

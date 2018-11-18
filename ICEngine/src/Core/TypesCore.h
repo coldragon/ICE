@@ -10,6 +10,8 @@
 #include ICE_INCLUDE_SDL2
 #include ICE_INCLUDE_SDL2_TTF
 
+#include <SDL2/SDL_gpu.h>
+
 // Typedef
 // --------------------------------------
 
@@ -107,9 +109,8 @@ struct ICE_Window
 {
 	ICE_String				title;
 	ICE_Float				w, h;
-
 	SDL_Window *			handle;
-	SDL_Renderer *			render;
+	GPU_Target *			render;
 	ICE_Input				input;
 
 }; typedef struct ICE_Window ICE_Window;
@@ -315,7 +316,7 @@ struct ICE_Core
 	// Main
 	ICE_Window				window;
 	ICE_Time				time;
-
+	SDL_Event				event;
 	// Path
 	ICE_Char				basePath[1024];
 	ICE_Char				dataPath[1024];

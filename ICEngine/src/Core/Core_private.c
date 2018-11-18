@@ -11,6 +11,7 @@
 #include "SDL2_Includer.h"
 #include ICE_INCLUDE_SDL2
 #include ICE_INCLUDE_SDL2_TTF
+#include ICE_INCLUDE_SDL2_GPU
 
 #include <stdio.h>
 

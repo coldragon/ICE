@@ -6,7 +6,6 @@
 #endif
 
 // Framework
-
 #include "Framework/TypesFramework.h"
 
 #include "Framework/Assert_.h"

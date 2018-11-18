@@ -60,6 +60,8 @@ ICE_Texture ICE_Texture_LoadFromFile(char *path)
 	}
 	*/
 
+	
+
 	surf = STBIMG_Load(path);
 
 	if (surf == NULL) {
@@ -74,7 +76,7 @@ ICE_Texture ICE_Texture_LoadFromFile(char *path)
 
 
 	ICE_Texture text = {0};
-	text.handle = SDL_CreateTextureFromSurface(CORE.window.render, surf);
+	text.handle = GPU_CopyImageFromSurface(surf);
 	if (text.handle == NULL)
 		SDL_Log("CRITICAL : Can't create Texture from Surface \"%s\" : %s \n", path, SDL_GetError());
 	text.w = surf->w; text.h = surf->h;
@@ -84,46 +86,58 @@ ICE_Texture ICE_Texture_LoadFromFile(char *path)
 	return text;
 }
 
-int ICE_Texture_RenderEx(const ICE_Texture *texture, ICE_Box* src, ICE_Box* dst, const ICE_Float angle) {
-
+int ICE_Texture_RenderEx(const ICE_Texture *tex, ICE_Box* src, ICE_Box* dst, const ICE_Float angle) 
+{
+	GPU_SetAnchor(tex->handle, 0.0f, 0.0f);
+	   
 	if (!src && dst)
 	{
-		SDL_Rect s_dst = ICE_Convert_BoxToSDL(dst);
-		return SDL_RenderCopyEx(CORE.window.render, texture->handle, NULL, &s_dst, angle, NULL, SDL_FLIP_NONE);
+		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, &dst_gpu, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
 	}
-	if (src && !dst)
+	else if (src && !dst)
 	{
-		SDL_Rect s_src = ICE_Convert_BoxToSDL(src);
-		return SDL_RenderCopyEx(CORE.window.render, texture->handle, &s_src, NULL, angle, NULL, SDL_FLIP_NONE);
+		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
+		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
 	}
-	if (!src && !dst)
+	else if (!src && !dst)
 	{
-		return SDL_RenderCopyEx(CORE.window.render, texture->handle, NULL, NULL, angle, NULL, SDL_FLIP_NONE);
+		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
+		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
 	}
-	SDL_Rect s_dst = ICE_Convert_BoxToSDL(dst);
-	SDL_Rect s_src = ICE_Convert_BoxToSDL(src);
-	return SDL_RenderCopyEx(CORE.window.render, texture->handle, &s_src, &s_dst, angle, NULL, SDL_FLIP_NONE);
+	else
+	{
+		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
+		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
+		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, &dst_gpu, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+	}
+
+	return 0;
 }
 
 int ICE_Texture_RenderExCentered(const ICE_Texture* tex, ICE_Box* src, ICE_Box* dst, const ICE_Float angle)
 {
+	GPU_SetAnchor(tex->handle, 0.5f, 0.5f);
+
 	if (!src && dst)
 	{
-		SDL_Rect s_dst = ICE_Convert_BoxToSDL(dst);
-		s_dst.x -= s_dst.w / 2; s_dst.y -= s_dst.h / 2;
-		return SDL_RenderCopyEx(CORE.window.render, tex->handle, NULL, &s_dst, angle, NULL, SDL_FLIP_NONE);
+		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, &dst_gpu, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
 	}
-	if (src && !dst)
+	else if (src && !dst)
 	{
-		SDL_Rect s_src = ICE_Convert_BoxToSDL(src);
-		return SDL_RenderCopyEx(CORE.window.render, tex->handle, &s_src, NULL, angle, NULL, SDL_FLIP_NONE);
+		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
+		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
 	}
-	if (!src && !dst)
+	else if (!src && !dst)
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+	else
 	{
-		return SDL_RenderCopyEx(CORE.window.render, tex->handle, NULL, NULL, angle, NULL, SDL_FLIP_NONE);
+		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
+		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
+		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, &dst_gpu, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
 	}
-	SDL_Rect s_dst = ICE_Convert_BoxToSDL(dst);
-	s_dst.x -= s_dst.w / 2; s_dst.y -= s_dst.h / 2;
-	SDL_Rect s_src = ICE_Convert_BoxToSDL(src);
-	return SDL_RenderCopyEx(CORE.window.render, tex->handle, &s_src, &s_dst, angle, NULL, SDL_FLIP_NONE);
+
+	return 0;
 }
