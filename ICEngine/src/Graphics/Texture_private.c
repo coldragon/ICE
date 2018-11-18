@@ -104,7 +104,7 @@ int ICE_Texture_RenderEx(const ICE_Texture *tex, ICE_Box* src, ICE_Box* dst, con
 	{
 		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
 		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
-		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, NULL, angle, 0.0f, 0.5f, GPU_FLIP_NONE);
 	}
 	else
 	{
@@ -119,24 +119,25 @@ int ICE_Texture_RenderEx(const ICE_Texture *tex, ICE_Box* src, ICE_Box* dst, con
 int ICE_Texture_RenderExCentered(const ICE_Texture* tex, ICE_Box* src, ICE_Box* dst, const ICE_Float angle)
 {
 	GPU_SetAnchor(tex->handle, 0.5f, 0.5f);
+	GPU_SetSnapMode(tex->handle, GPU_SNAP_POSITION);
 
 	if (!src && dst)
 	{
 		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
-		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, &dst_gpu, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, &dst_gpu, angle, 0.0f, 0.0f, GPU_FLIP_NONE);
 	}
 	else if (src && !dst)
 	{
 		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
-		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, NULL, angle, 0.0f, 0.0f, GPU_FLIP_NONE);
 	}
 	else if (!src && !dst)
-		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, NULL, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+		GPU_BlitRectX(tex->handle, NULL, CORE.window.render, NULL, angle, 0.0f, 0.0f, GPU_FLIP_NONE);
 	else
 	{
 		GPU_Rect src_gpu = { src->x, src->y, src->w, src->h };
 		GPU_Rect dst_gpu = { dst->x, dst->y, dst->w, dst->h };
-		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, &dst_gpu, angle, 0.5f, 0.5f, GPU_FLIP_NONE);
+		GPU_BlitRectX(tex->handle, &src_gpu, CORE.window.render, &dst_gpu, angle, 0.0f, 0.0f, GPU_FLIP_NONE);
 	}
 
 	return 0;

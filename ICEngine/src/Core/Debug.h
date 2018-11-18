@@ -62,7 +62,7 @@ void ICE_Debug_FontDraw(int y, const char* format, ...);
 /**
  * \brief Basic control for camera (WQSD, ARROW)
  */
-void ICE_Debug_CameraControl();
+void ICE_Debug_CameraControl(int speed);
 
 
 /**

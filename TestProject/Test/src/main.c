@@ -23,8 +23,7 @@ ICE_Game_Create()
 
 	D->rectangle = ICE_Gui_Create(NULL, ICE_Box_New(0, 0, 0, 50), D->texture_gui);
 
-	ICE_Entity_SetTexture(ICE_Entity_Get(NULL, ICE_Entity_Create(NULL, ICE_Box_New(0, 0, 1920, 1920))), D->texture_background);
-
+	ICE_Entity_SetTexture(ICE_Entity_Get(NULL, ICE_Entity_Create(NULL, ICE_Box_New(-960, -960, 1920, 1920))), D->texture_background);
 	ICE_Debug_CallbackDraw(GAME_Debug_LateDraw);
 	ICE_Music_Play(0, 0.05);
 

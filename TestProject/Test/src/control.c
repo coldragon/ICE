@@ -57,7 +57,7 @@ void GAME_Control()
 	if (ICE_Input_OnPress(ICE_KEY_RETURN))
 	{
 		ICE_Vect vect = ICE_Entity_GetPosition(player);
-		const ICE_Box box = { vect.x, vect.y, 32, 32 };
+		const ICE_Box box = { vect.x+16, vect.y+16, 32, 32 };
 		ICE_Entity * fireball = ICE_Entity_Get(NULL, ICE_Entity_Create(NULL, box));
 		ICE_Entity_SetFunction(fireball, GAME_Projectile_Create, GAME_Projectile_Update, GAME_Projectile_Destroy);
 	}

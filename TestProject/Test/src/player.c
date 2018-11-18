@@ -44,6 +44,6 @@ void GAME_Player_Destroy(ICE_Entity*  this_)
 void GAME_Player_Init()
 {
 	GAME_DATA * D = ICE_Data_Get(NULL, 0);
-	D->player = ICE_Entity_Create(NULL, ICE_Box_New(0, 0, 64, 64));
+	D->player = ICE_Entity_Create(NULL, ICE_Box_New(-32, -32, 64, 64));
 	ICE_Entity_SetFunction(ICE_Entity_Get(NULL, D->player), GAME_Player_Create, GAME_Player_Update, GAME_Player_Destroy);
 }
